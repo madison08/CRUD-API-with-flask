@@ -3,7 +3,7 @@
 
 <!-- ## api_link: /api/v1/ -->
 
-<style>
+<!-- <style>
     .contain{
         font-size: 15px;
         font-weight: bold;
@@ -33,7 +33,7 @@
     .put{
         border: 1px solid #65CC8F;
     }
-</style>
+</style> -->
 
 <div class="contain delete"><div class="contain_contain bg_delete"> DELETE </div> /api/v1/todo/{id}</div>
 
