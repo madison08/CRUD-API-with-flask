@@ -1,12 +1,9 @@
-from flask import Flask,jsonify,Request
+from flask import Flask
 from datetime import datetime
-import json
-from flask.wrappers import Response
 from flask_restful import Resource,Api,reqparse
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from werkzeug.exceptions import abort
-from werkzeug.wrappers import request
 
 
 
@@ -21,14 +18,8 @@ Migrate(app,db)
 api = Api(app)
 
 
-# response structure
 
-
-# ressource_fields = {
-
-#     'task': fields.String,
-# }
-
+# add argument for get and parse post on body request
 parser = reqparse.RequestParser()
 parser.add_argument('task')
 
@@ -58,15 +49,16 @@ class Todo(db.Model):
 
 
 class TodoId(Resource):
+    # ressource for get,delete and put todo
 
     def get(self,id):
 
         todo = Todo.query.filter_by(id=id).first()
 
-        if todo:
-            return todo.json()
-        else:
-            return {"note": None},404
+        if not todo:
+            abort(404,"todo not found")
+        
+        return todo.json()
 
     def put(self,id):
 
@@ -99,7 +91,7 @@ class TodoId(Resource):
 
             return todo.json()
         else:
-            return {'note': 'not found'},404
+            abort(404, "todo not found")
 
 class TodoA(Resource):
     # Ressource for add and list todos
@@ -119,15 +111,8 @@ class TodoA(Resource):
         db.session.add(new_task)
         db.session.commit()
 
-        # print('^^^^^^^^^^^^^^^^^')
-
         return new_task.json()
 
-
-
-        # return {'data': todo.json()}
-
-    
 
 api.add_resource(TodoId,'/api/v1/todo/<int:id>')
 api.add_resource(TodoA,'/api/v1/todo')
