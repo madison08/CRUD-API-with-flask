@@ -125,4 +125,4 @@ api.add_resource(TodoA,'/api/v1/todo')
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
